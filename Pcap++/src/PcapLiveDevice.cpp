@@ -36,7 +36,11 @@
 #	include <sys/ioctl.h>
 #	include <net/if.h>
 #	include <poll.h>
-#	include <pcap/pcap.h>
+#	if defined(__OpenBSD__)
+#		include <pcap.h>
+#	else
+#		include <pcap/pcap.h>
+#	endif
 #endif  // if defined(_WIN32)
 #if defined(__APPLE__)
 #	include <net/if_dl.h>
