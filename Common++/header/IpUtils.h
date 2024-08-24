@@ -17,6 +17,11 @@
 #	include <netinet/in.h>
 #	include <arpa/inet.h>
 #endif
+#if defined(__OpenBSD__)
+#	include <sys/socket.h>
+#	include <netinet/in.h>
+#	include <arpa/inet.h>
+#endif
 
 /// @file
 
