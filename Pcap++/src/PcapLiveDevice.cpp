@@ -3,6 +3,7 @@
 #include "IpUtils.h"
 #include "DeviceUtils.h"
 #include "PcapUtils.h"
+#include "SystemUtils.h"
 #include "PcapLiveDevice.h"
 #include "PcapLiveDeviceList.h"
 #include "Packet.h"
@@ -159,7 +160,7 @@ namespace pcpp
 			return;
 		}
 
-		RawPacket rawPacket(packet, pkthdr->caplen, pkthdr->ts, false, pThis->getLinkType());
+		RawPacket rawPacket(packet, pkthdr->caplen, FROM_PCAP_TIMEVAL(pkthdr->ts), false, pThis->getLinkType());
 
 		if (pThis->m_cbOnPacketArrives != nullptr)
 			pThis->m_cbOnPacketArrives(&rawPacket, pThis, pThis->m_cbOnPacketArrivesUserCookie);
@@ -177,7 +178,7 @@ namespace pcpp
 
 		uint8_t* packetData = new uint8_t[pkthdr->caplen];
 		memcpy(packetData, packet, pkthdr->caplen);
-		RawPacket* rawPacketPtr = new RawPacket(packetData, pkthdr->caplen, pkthdr->ts, true, pThis->getLinkType());
+		RawPacket* rawPacketPtr = new RawPacket(packetData, pkthdr->caplen, FROM_PCAP_TIMEVAL(pkthdr->ts), true, pThis->getLinkType());
 		pThis->m_CapturedPackets->pushBack(rawPacketPtr);
 	}
 
@@ -191,7 +192,7 @@ namespace pcpp
 			return;
 		}
 
-		RawPacket rawPacket(packet, pkthdr->caplen, pkthdr->ts, false, pThis->getLinkType());
+		RawPacket rawPacket(packet, pkthdr->caplen, FROM_PCAP_TIMEVAL(pkthdr->ts), false, pThis->getLinkType());
 
 		if (pThis->m_cbOnPacketArrivesBlockingMode != nullptr)
 			if (pThis->m_cbOnPacketArrivesBlockingMode(&rawPacket, pThis,

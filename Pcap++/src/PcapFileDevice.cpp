@@ -10,6 +10,7 @@
 #include <string.h>
 #include <fstream>
 #include "EndianPortable.h"
+#include "SystemUtils.h"
 
 namespace pcpp
 {
@@ -343,7 +344,7 @@ namespace pcpp
 		// because we opened with nano second precision 'tv_usec' is actually nanos
 		timespec ts = { pkthdr.ts.tv_sec, static_cast<long>(pkthdr.ts.tv_usec) };
 #else
-		struct timeval ts = pkthdr.ts;
+		struct timeval ts = FROM_PCAP_TIMEVAL(pkthdr.ts);
 #endif
 		if (!rawPacket.setRawData(pMyPacketData, pkthdr.caplen, ts, static_cast<LinkLayerType>(m_PcapLinkLayerType),
 		                          pkthdr.len))

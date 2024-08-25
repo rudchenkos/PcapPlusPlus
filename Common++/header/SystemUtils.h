@@ -12,6 +12,13 @@
 int gettimeofday(struct timeval* tp, struct timezone* tzp);
 #endif
 
+#ifdef __OpenBSD__
+// pcap_pkthdr.ts in libpcap on OpenBSD is of the type "struct bpf_timeval", rather than "struct timeval"
+#	define FROM_PCAP_TIMEVAL(t) {.tv_sec = t.tv_sec, .tv_usec = t.tv_usec}
+#else
+#	define FROM_PCAP_TIMEVAL(t) t
+#endif
+
 /**
  * \namespace pcpp
  * \brief The main namespace for the PcapPlusPlus lib
